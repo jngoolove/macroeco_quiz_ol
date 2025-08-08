@@ -41,7 +41,12 @@ const Index = () => {
             "Option D - Proceed to next question"
           ],
           correctAnswer: 0, // First option is always correct for now
-          explanation: "This is a real question from the database. In a full implementation, you would see the complete solution and answer."
+          explanation: "This is a real question from the database. In a full implementation, you would see the complete solution and answer.",
+          sourceInfo: {
+            questionType: q.question_type,
+            difficulty: q.difficulty,
+            sourceId: q.id
+          }
         })) || [];
         
         setQuestions(convertedQuestions);
@@ -169,6 +174,7 @@ const Index = () => {
           onAnswer={handleAnswer}
           answered={isAnswered}
           selectedAnswer={answers[currentQuestion.id] ?? null}
+          sourceInfo={currentQuestion.sourceInfo}
         />
         
         {isAnswered && (

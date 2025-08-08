@@ -9,6 +9,11 @@ export interface Question {
   options: string[];
   correctAnswer: number;
   explanation: string;
+  sourceInfo?: {
+    questionType?: string;
+    difficulty?: number;
+    sourceId: number;
+  };
 }
 
 export interface DatabaseQuestion {
@@ -24,9 +29,14 @@ interface QuizCardProps {
   onAnswer: (questionId: number, selectedAnswer: number, isCorrect: boolean) => void;
   answered: boolean;
   selectedAnswer: number | null;
+  sourceInfo?: {
+    questionType?: string;
+    difficulty?: number;
+    sourceId: number;
+  };
 }
 
-const QuizCard = ({ question, onAnswer, answered, selectedAnswer }: QuizCardProps) => {
+const QuizCard = ({ question, onAnswer, answered, selectedAnswer, sourceInfo }: QuizCardProps) => {
   const [showExplanation, setShowExplanation] = useState(false);
 
   const handleAnswerClick = (optionIndex: number) => {
@@ -47,6 +57,24 @@ const QuizCard = ({ question, onAnswer, answered, selectedAnswer }: QuizCardProp
   return (
     <Card className="w-full max-w-2xl mx-auto bg-gradient-to-br from-card to-secondary/20 border-2 shadow-lg">
       <CardHeader className="pb-4">
+        {sourceInfo && (
+          <div className="flex items-center gap-2 mb-3 text-xs text-muted-foreground">
+            <span className="px-2 py-1 bg-muted rounded">ID: {sourceInfo.sourceId}</span>
+            {sourceInfo.questionType && (
+              <span className="px-2 py-1 bg-primary/10 text-primary rounded">
+                {sourceInfo.questionType}
+              </span>
+            )}
+            {sourceInfo.difficulty && (
+              <span className="px-2 py-1 bg-secondary rounded">
+                Difficulty: {sourceInfo.difficulty}
+              </span>
+            )}
+            <span className="px-2 py-1 bg-accent/10 text-accent-foreground rounded">
+              Database Question
+            </span>
+          </div>
+        )}
         <CardTitle className="text-xl font-semibold text-foreground leading-relaxed">
           {question.question}
         </CardTitle>
