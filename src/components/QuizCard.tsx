@@ -11,6 +11,14 @@ export interface Question {
   explanation: string;
 }
 
+export interface DatabaseQuestion {
+  id: number;
+  content_md: string;
+  content_plain: string;
+  difficulty?: number;
+  question_type?: string;
+}
+
 interface QuizCardProps {
   question: Question;
   onAnswer: (questionId: number, selectedAnswer: number, isCorrect: boolean) => void;
