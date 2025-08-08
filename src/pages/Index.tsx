@@ -8,7 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 
 const Index = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [answers, setAnswers] = useState<{ [key: number]: number }>({});
+  const [answers, setAnswers] = useState<{ [key: number]: number | string }>({});
   const [score, setScore] = useState(0);
   const [quizStarted, setQuizStarted] = useState(false);
   const [quizCompleted, setQuizCompleted] = useState(false);
@@ -34,14 +34,16 @@ const Index = () => {
         const convertedQuestions: Question[] = dbQuestions?.map((q, index) => ({
           id: q.id,
           question: q.content_plain || q.content_md || "Question content not available",
-          options: [
+          options: q.question_type === "structured" ? [] : [
             "Option A - Click to continue",
             "Option B - This is a practice question", 
             "Option C - View the question content",
             "Option D - Proceed to next question"
           ],
-          correctAnswer: 0, // First option is always correct for now
-          explanation: "This is a real question from the database. In a full implementation, you would see the complete solution and answer.",
+          correctAnswer: 0, // First option is always correct for non-structured questions
+          explanation: q.question_type === "structured" 
+            ? "This is a structured question from the database. Review your answer and the question content."
+            : "This is a real question from the database. In a full implementation, you would see the complete solution and answer.",
           sourceInfo: {
             questionType: q.question_type,
             difficulty: q.difficulty,
@@ -60,7 +62,7 @@ const Index = () => {
     fetchQuestions();
   }, []);
 
-  const handleAnswer = (questionId: number, selectedAnswer: number, isCorrect: boolean) => {
+  const handleAnswer = (questionId: number, selectedAnswer: number | string, isCorrect: boolean) => {
     setAnswers(prev => ({ ...prev, [questionId]: selectedAnswer }));
     if (isCorrect) {
       setScore(prev => prev + 1);
