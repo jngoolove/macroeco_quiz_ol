@@ -5,7 +5,7 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  base: mode === 'production' ? '/inverse-quiz-explorer/' : '/',
+  base: mode === 'production' ? '/macroeco_quiz_ol/' : '/',
   server: {
     host: "::",
     port: 8080,
