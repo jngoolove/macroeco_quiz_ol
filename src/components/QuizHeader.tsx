@@ -18,12 +18,12 @@ const QuizHeader = ({ currentQuestion, totalQuestions, score, title }: QuizHeade
       <div className="text-center mb-6">
         <div className="flex items-center justify-center gap-3 mb-2">
           <img 
-            src="/logos/logo原色2.png" 
+            src="/logos/logo-color.png" 
             alt="Company Logo" 
             className="h-8 w-auto object-contain"
             onError={(e) => {
               // Fallback to other logos if primary fails
-              e.currentTarget.src = "/logos/logo反白稿1.png";
+              e.currentTarget.src = "/logos/logo-white-1.png";
             }}
           />
           <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">

@@ -66,12 +66,12 @@ const Index = () => {
           {/* Company Logo */}
           <div className="mb-6">
             <img 
-              src="/logos/logo原色2.png" 
+              src="/logos/logo-color.png" 
               alt="Company Logo" 
               className="mx-auto h-16 w-auto object-contain"
               onError={(e) => {
                 // Fallback to other logos if primary fails
-                e.currentTarget.src = "/logos/logo反白稿1.png";
+                e.currentTarget.src = "/logos/logo-white-1.png";
               }}
             />
           </div>
