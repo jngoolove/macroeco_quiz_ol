@@ -22,7 +22,7 @@ const QuizHeader = ({ currentQuestion, totalQuestions, score, title }: QuizHeade
             {title}
           </h1>
         </div>
-        <p className="text-muted-foreground">A-Level Mathematics</p>
+        <p className="text-muted-foreground">AP Macroeconomics</p>
       </div>
 
       <Card className="bg-gradient-to-r from-card to-secondary/10 border-2">

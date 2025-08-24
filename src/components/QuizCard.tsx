@@ -9,6 +9,11 @@ export interface Question {
   options: string[];
   correctAnswer: number;
   explanation: string;
+  image?: string;
+  table?: {
+    headers: string[];
+    rows: string[][];
+  };
 }
 
 interface QuizCardProps {
@@ -42,27 +47,74 @@ const QuizCard = ({ question, onAnswer, answered, selectedAnswer }: QuizCardProp
         <CardTitle className="text-xl font-semibold text-foreground leading-relaxed">
           {question.question}
         </CardTitle>
+        {question.image && (
+          <div className="mt-4 flex justify-center">
+            <img 
+              src={question.image} 
+              alt="Question diagram" 
+              className="max-w-full h-auto rounded-lg border shadow-sm"
+              style={{ maxWidth: '500px' }}
+              onLoad={() => {
+                console.log('Image loaded successfully:', question.image);
+              }}
+              onError={(e) => {
+                console.error('Image failed to load:', question.image);
+                e.currentTarget.style.display = 'none';
+              }}
+            />
+          </div>
+        )}
+        {question.table && (
+          <div className="mt-4">
+            <div className="overflow-x-auto">
+              <table className="w-full border-collapse border border-gray-300 text-sm">
+                <thead>
+                  <tr className="bg-gray-50">
+                    {question.table.headers.map((header, index) => (
+                      <th key={index} className="border border-gray-300 px-3 py-2 text-left font-semibold">
+                        {header}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {question.table.rows.map((row, rowIndex) => (
+                    <tr key={rowIndex} className={rowIndex % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
+                      {row.map((cell, cellIndex) => (
+                        <td key={cellIndex} className="border border-gray-300 px-3 py-2">
+                          {cell}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
       </CardHeader>
       <CardContent className="space-y-3">
-        <div className="grid gap-3">
+        <div className="space-y-2">
           {question.options.map((option, index) => (
             <Button
               key={index}
               variant={getOptionVariant(index)}
-              className="justify-start text-left h-auto py-4 px-6 text-base font-medium transition-all duration-200 hover:scale-[1.02]"
+              className="w-full justify-start text-left p-4 text-sm font-medium transition-all duration-200 hover:scale-[1.01] h-auto min-h-[60px]"
               onClick={() => handleAnswerClick(index)}
               disabled={answered}
             >
-              <div className="flex items-center gap-3 w-full">
-                <span className="flex-shrink-0 w-6 h-6 rounded-full bg-muted flex items-center justify-center text-sm font-semibold">
+              <div className="flex items-start gap-3 w-full">
+                <span className="flex-shrink-0 w-7 h-7 rounded-full bg-muted flex items-center justify-center text-sm font-bold mt-0.5">
                   {String.fromCharCode(65 + index)}
                 </span>
-                <span className="flex-1 font-mono text-sm">{option}</span>
+                <span className="flex-1 text-left leading-relaxed break-words whitespace-normal overflow-wrap-anywhere hyphens-auto py-0.5">
+                  {option}
+                </span>
                 {answered && index === question.correctAnswer && (
-                  <CheckCircle className="w-5 h-5 text-success-foreground" />
+                  <CheckCircle className="w-5 h-5 text-success-foreground flex-shrink-0 mt-0.5" />
                 )}
                 {answered && index === selectedAnswer && index !== question.correctAnswer && (
-                  <XCircle className="w-5 h-5 text-destructive-foreground" />
+                  <XCircle className="w-5 h-5 text-destructive-foreground flex-shrink-0 mt-0.5" />
                 )}
               </div>
             </Button>

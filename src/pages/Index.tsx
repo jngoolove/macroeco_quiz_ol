@@ -2,9 +2,9 @@ import { useState } from "react";
 import QuizCard, { Question } from "@/components/QuizCard";
 import QuizHeader from "@/components/QuizHeader";
 import QuizResults from "@/components/QuizResults";
-import { inverseFunctionsQuiz } from "@/data/quizData";
+import { macroeconomicsQuiz } from "@/data/quizData";
 import { Button } from "@/components/ui/button";
-import { Play } from "lucide-react";
+import { Play, ChevronLeft, ChevronRight } from "lucide-react";
 
 const Index = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -13,7 +13,7 @@ const Index = () => {
   const [quizStarted, setQuizStarted] = useState(false);
   const [quizCompleted, setQuizCompleted] = useState(false);
 
-  const currentQuestion = inverseFunctionsQuiz[currentQuestionIndex];
+  const currentQuestion = macroeconomicsQuiz[currentQuestionIndex];
   const isAnswered = currentQuestion?.id in answers;
 
   const handleAnswer = (questionId: number, selectedAnswer: number, isCorrect: boolean) => {
@@ -24,10 +24,16 @@ const Index = () => {
   };
 
   const handleNext = () => {
-    if (currentQuestionIndex < inverseFunctionsQuiz.length - 1) {
+    if (currentQuestionIndex < macroeconomicsQuiz.length - 1) {
       setCurrentQuestionIndex(prev => prev + 1);
     } else {
       setQuizCompleted(true);
+    }
+  };
+
+  const handlePrevious = () => {
+    if (currentQuestionIndex > 0) {
+      setCurrentQuestionIndex(prev => prev - 1);
     }
   };
 
@@ -49,22 +55,22 @@ const Index = () => {
         <div className="text-center max-w-2xl mx-auto">
           <div className="mb-8">
             <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
-              Inverse Functions Quiz
+              Macroeconomics Quiz
             </h1>
-            <p className="text-xl text-muted-foreground mb-2">A-Level Mathematics</p>
+            <p className="text-xl text-muted-foreground mb-2">AP Macroeconomics</p>
             <p className="text-muted-foreground">
-              Test your understanding of inverse functions with {inverseFunctionsQuiz.length} challenging questions.
+              Test your understanding of macroeconomic principles with {macroeconomicsQuiz.length} challenging questions.
             </p>
           </div>
           
           <div className="bg-gradient-to-br from-card to-secondary/20 rounded-lg p-8 border-2 shadow-lg mb-8">
             <h2 className="text-xl font-semibold mb-4">What you'll be tested on:</h2>
             <ul className="text-left space-y-2 text-muted-foreground">
-              <li>• Definition and properties of inverse functions</li>
-              <li>• Finding inverse functions algebraically</li>
-              <li>• Domain and range of inverse functions</li>
-              <li>• Graphical relationships between functions and their inverses</li>
-              <li>• Composition of functions and their inverses</li>
+              <li>• Supply and demand analysis</li>
+              <li>• GDP, inflation, and economic indicators</li>
+              <li>• Monetary and fiscal policy</li>
+              <li>• International trade and exchange rates</li>
+              <li>• Business cycles and economic growth</li>
             </ul>
           </div>
 
@@ -86,7 +92,7 @@ const Index = () => {
       <div className="min-h-screen flex items-center justify-center bg-background p-4">
         <QuizResults
           score={score}
-          totalQuestions={inverseFunctionsQuiz.length}
+          totalQuestions={macroeconomicsQuiz.length}
           onRestart={handleRestart}
         />
       </div>
@@ -97,9 +103,9 @@ const Index = () => {
     <div className="min-h-screen bg-background p-4">
       <QuizHeader
         currentQuestion={currentQuestionIndex + 1}
-        totalQuestions={inverseFunctionsQuiz.length}
+        totalQuestions={macroeconomicsQuiz.length}
         score={score}
-        title="Inverse Functions Quiz"
+        title="Macroeconomics Quiz"
       />
       
       <div className="max-w-4xl mx-auto">
@@ -110,17 +116,33 @@ const Index = () => {
           selectedAnswer={answers[currentQuestion.id] ?? null}
         />
         
-        {isAnswered && (
-          <div className="flex justify-center mt-6">
+        <div className="flex justify-between items-center mt-6">
+          <Button 
+            onClick={handlePrevious} 
+            variant="outline"
+            size="lg"
+            disabled={currentQuestionIndex === 0}
+            className="flex items-center gap-2"
+          >
+            <ChevronLeft className="w-4 h-4" />
+            Previous
+          </Button>
+          
+          {isAnswered && (
             <Button 
               onClick={handleNext} 
               size="lg"
-              className="bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary/80 transition-all duration-200"
+              className="bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary/80 transition-all duration-200 flex items-center gap-2"
             >
-              {currentQuestionIndex < inverseFunctionsQuiz.length - 1 ? 'Next Question' : 'Show Results'}
+              {currentQuestionIndex < macroeconomicsQuiz.length - 1 ? 'Next Question' : 'Show Results'}
+              {currentQuestionIndex < macroeconomicsQuiz.length - 1 && <ChevronRight className="w-4 h-4" />}
             </Button>
-          </div>
-        )}
+          )}
+          
+          {!isAnswered && (
+            <div></div>
+          )}
+        </div>
       </div>
     </div>
   );
