@@ -913,6 +913,11 @@ export const allMacroeconomicsQuestions: Question[] = [
   }
 ];
 
+// Function to get all 60 questions in original sequence
+export function getAllQuestions(): Question[] {
+  return allMacroeconomicsQuestions;
+}
+
 // Function to randomly select 15 questions from the 60 available
 export function generateRandomQuiz(): Question[] {
   // Ensure questions with visual elements (images or tables) are included
@@ -941,5 +946,5 @@ export function generateRandomQuiz(): Question[] {
   }));
 }
 
-// Export the quiz - generates a new random set each time the module is imported
-export const macroeconomicsQuiz = generateRandomQuiz();
+// Export both modes - default to all 60 questions in original sequence
+export const macroeconomicsQuiz = getAllQuestions();

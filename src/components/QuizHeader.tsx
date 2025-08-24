@@ -1,6 +1,6 @@
 import { Progress } from "@/components/ui/progress";
 import { Card, CardContent } from "@/components/ui/card";
-import { Trophy, Target, Brain } from "lucide-react";
+import { Trophy, Target } from "lucide-react";
 
 interface QuizHeaderProps {
   currentQuestion: number;
@@ -16,8 +16,16 @@ const QuizHeader = ({ currentQuestion, totalQuestions, score, title }: QuizHeade
   return (
     <div className="w-full max-w-4xl mx-auto mb-8">
       <div className="text-center mb-6">
-        <div className="flex items-center justify-center gap-2 mb-2">
-          <Brain className="w-8 h-8 text-primary" />
+        <div className="flex items-center justify-center gap-3 mb-2">
+          <img 
+            src="/logos/logo原色2.png" 
+            alt="Company Logo" 
+            className="h-8 w-auto object-contain"
+            onError={(e) => {
+              // Fallback to other logos if primary fails
+              e.currentTarget.src = "/logos/logo反白稿1.png";
+            }}
+          />
           <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
             {title}
           </h1>
